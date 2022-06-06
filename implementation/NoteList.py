@@ -5,11 +5,12 @@ from Note import Note
 
 """
 This class represents a melody composed by a list of notes
+
 Attribute explanation:
--noteList: it is a list of n Notes
+-noteList: list of n Notes
 -individual_length: how long is the list
 -fitness: "goodness" of the melody, range between [1, 10] (1 = bad, 10 = good)
--reprod_prob: the probability of reproduction
+-reprod_prob: probability of reproduction
 """
 class NoteList:
     noteList: List[Note]
@@ -17,7 +18,7 @@ class NoteList:
     fitness: int 
     reprod_prob: float
 
-    """ Initialization of Notelist """
+    """ Initialization of NoteList """
     def __init__(self, individual_length: int = 0, octv_low: int = 4, octv_up: int = 4):
         self.individual_length = individual_length
         self.fitness = 1
@@ -43,22 +44,22 @@ class NoteList:
             raise TypeError("Can only append Note")
         self.noteList.append(object)
 
-    """ Assign new rhythm value for every note in Notelist """
+    """ Assign new rhythm value for every Note in NoteList """
     def add_rhythm(self, std: float = 1):
         for x in self.noteList:
             x.add_rhythm(std)
 
-    """ Recall mutation operator for value for every note in Notelist """
+    """ Invoke mutation operator for value for every Note in NoteList """
     def mutate_value(self, mutation_prob: float=0.8, std_dev: float = 1):
         for x in self.noteList:
             Note.mutate_value(x, mutation_prob, std_dev)
 
-    """ Recall mutation operator for rhythm for every note in Notelist """
+    """ Invoke mutation operator for rhythm for every Note in NoteList """
     def mutate_rhythm(self, mutation_prob: float=0.8, std_dev: float = 1):
         for x in self.noteList:
             Note.mutate_rhythm(x, mutation_prob, std_dev)
 
-    """ Value Crossover between two Notelist """
+    """ Value crossover between two NoteList instances """
     def single_crossover_value(self, pa2, crossover_prob: float = 0.8):
         crossover_dice = np.random.uniform(0, 1)
         offspring1 = self.noteList
@@ -73,7 +74,7 @@ class NoteList:
             
         self.noteList = offspring1
 
-    """ Rhythm Crossover between two Notelist """
+    """ Rhythm crossover between two NoteList instances """
     def single_crossover_rhythm(self, pa2, crossover_prob: float = 0.8):
         parent1 = []
         parent2 = []
