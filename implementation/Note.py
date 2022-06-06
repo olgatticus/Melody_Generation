@@ -2,12 +2,13 @@ from typing import List
 import numpy as np
 
 """
-This class represent a note
+This class represents a single note
+
 Attribute explanation:
--value: represent value of the note (A, B, C, D, E, F, G)
--octave: represent the octave of the note
--rhythm: represent rhythm of a single note (1/4, 1/8, 1/16) 
--octv_low and octv_up: represent range of octaves values between lowest and highest
+-value: represents the value of the note (A, B, C, D, E, F, G)
+-octave: represents the octave of the note
+-rhythm: represents the rhythm of the note (1/4, 1/8, 1/16) 
+-octv_low and octv_up: represent the range of octave values (lowest and highest)
 """
 class Note:
     value: int
@@ -19,7 +20,7 @@ class Note:
     """ Initialization of the note """
     def __init__(self, octv_low: int = 4, octv_up: int = 4):    
         
-        # generate note value using zipf law
+        # Generate note value using Zipf's law
         while True:
             val = np.random.zipf(1.092)
             #val = np.random.randint(1 , 7)
@@ -37,7 +38,7 @@ class Note:
                 self.value = mapping[val]
                 break 
         
-        # generate octave value using normal distribution
+        # Generate octave value using a normal distribution
         while True:
             octv = int(np.floor(np.random.normal(4, 1)))
             if octv >= octv_low and octv <= octv_up:
@@ -54,7 +55,7 @@ class Note:
     def __str__(self):
         return "<Note value:%s octave:%s rhythm:%s>" % (self.value, self.octave, self.rhythm)
 
-    """ Mutation value """
+    """ Mutation of the note's value """
     def mutate_value(self, mutation_prob: float = 0.8, std_dev: float = 1):
         position = (self.octave-1) * 7 + self.value # mean of the gaussian
 
@@ -71,12 +72,12 @@ class Note:
                     octv = np.int32(np.ceil(pos/7))
                     val = np.int32(pos - (octv-1)*7)
 
-                    # check note to avoid duplicates
+                    # Check note to avoid duplicates
                     if pos != position: 
                         self.value = val
                         self.octave = octv
                         
-                # stay inside the loop if the position is not valid        
+                # Stay inside the loop if the position is not valid        
                 else:
                     pos = position 
 
@@ -88,7 +89,7 @@ class Note:
                 self.rhythm = rtm
                 break
         
-    """ Mutation rhythm """ 
+    """ Mutation of the note's rhythm """ 
     def mutate_rhythm(self, mutation_prob: float = 0.2, std_dev: float = 1):
         mutation_dice = np.random.uniform(0, 1)
         if mutation_dice < mutation_prob:
@@ -96,7 +97,7 @@ class Note:
                 #rtm = np.int32(np.random.normal(self.rhythm, std_dev))
                 rtm = np.int32(np.random.normal(2, std_dev)) 
 
-                # check if the value is acceptable and different from orignal rhythm
+                # Check if the value is acceptable and different from orignal rhythm
                 if rtm >= 2 and rtm <=4 and rtm != self.rhythm:
                     self.rhythm = rtm
                     break
