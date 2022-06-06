@@ -198,7 +198,7 @@ def generate_offspring_roulette_wheel_rhythm(parents, new_population, crossover_
 
         offspring1.fitness = 1
 
-        # Check current individual to avoid replicate
+        # Check current individuals to avoid replicates
         valid = True
         for indiv in new_population:
             val_off1 = offspring1.getval()
